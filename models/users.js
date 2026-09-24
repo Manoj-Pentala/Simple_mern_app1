@@ -1,9 +1,15 @@
 let mongoose=require("mongoose");
 let usersschema=mongoose.Schema({
     name:String,
-    email:String,
+    email:{
+        type:String,
+        unique:true
+    },
     password:String,
-    role:String
+    role:{
+        type:String,
+        enum:["HR","EMPLOYEE"]
+        }
 
 })
 

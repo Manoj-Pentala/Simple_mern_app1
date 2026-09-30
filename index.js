@@ -27,7 +27,7 @@ mongoose.connect("mongodb://localhost:27017/hrmanagement")
     console.log(err);
 })
 
-app.use(express.json());
+app.use(express.json);
 
 app.use("/api/hr",hrroutes);
 app.use("/api/emp",emprouter);

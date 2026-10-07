@@ -33,7 +33,6 @@ def getparticularstudent(stuid:str):
     })
     return student_details(student)
 
-
 @student_router.delete("/deletestudent/{stuid}")
 def deletestudent(stuid:str):
     result=student_collection.delete_one({

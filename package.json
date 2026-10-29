@@ -19,8 +19,9 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "express": "^5.2.1",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
     "mongodb": "^7.6.0",
-    "mongoose": "^9.10.1"
+    "mongoose": "^9.11.4"
   }
 }

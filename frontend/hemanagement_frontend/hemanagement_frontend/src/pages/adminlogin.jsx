@@ -1,43 +1,38 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
-
-function AdminLogin() {
-  let [username, setUsername] = useState("");
-  let [password, setPassword] = useState("");
-  let [error, setError] = useState("");
-  
-
-  let navigate = useNavigate();
-  const Login = (event) => {
-    event.preventDefault();
-
-    if (username === "admin" && password === "admin") {
-      navigate("/adminhome");
-    } else {
-        setError("Invalid username or password");
+function AdminLogin(){
+    let [username,setUsername]=useState("")
+    let [password,setPassword]=useState("")
+    let [error,setError]=useState("")    
+    let navigate=useNavigate()
+    //function for onsubmit
+    let login=(event)=>{
+        event.preventDefault()
+         // it only collect all the inputs from the form
+         if(username=="admin" & password=="admin"){
+            console.log("login success")
+            navigate("/adminhome")
+         }else{
+            console.log("login failed")
+            setError("invalid credentials")
+         }
     }
-  };
-
-  return (
+    return(
     <div>
-      <form onSubmit={Login}>
-        <input type="text"placeholder="Enter username"value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
+      <form onSubmit={login}>
+<input type="text" value={username} 
+  onChange={(e)=>setUsername(e.target.value)}  
+     placeholder="Enter username"></input><br/>     
+        <input type="password" 
+        value={password} 
+        onChange={(e)=>setPassword(e.target.value)} placeholder="Enter password"></input><br/>
         <button type="submit">Admin Login</button>
       </form>
-      {error && <div className="alert alert-danger">{error}</div>}
+  {error && <div className="alert alert-danger">{error}</div>}
+
+
     </div>
-  );
+    )
 }
 
-export default AdminLogin;
+export default AdminLogin

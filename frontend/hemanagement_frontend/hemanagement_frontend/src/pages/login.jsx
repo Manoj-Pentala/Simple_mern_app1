@@ -1,80 +1,180 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Login_page() {
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./Login.css";
+
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setError("");
 
-    if (email === "admin@gmail.com" && password === "admin") {
-    localStorage.setItem("currentUser", JSON.stringify({ "name": "Admin", "role": "admin" }))
-      navigate("/adminhome");
+    if (!email.trim() || !password) {
+      setError("Please enter your email and password.");
       return;
     }
 
+    setLoading(true);
+
     try {
-      const response = await fetch("http://localhost:3000/api/emp/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-     
-      if (!response.ok || !data.user) {
-        setError(data.message || "Login failed. Please try again.");
+      // Admin login
+      if (
+        email.trim().toLowerCase() === "admin@gmail.com" &&
+        password === "admin"
+      ) {
+        localStorage.setItem(
+          "currentuser",
+          JSON.stringify({ name: "admin", role: "admin" })
+        );
+
+        navigate("/adminhome", { replace: true });
         return;
       }
 
-      if (data.user.role === "HR") {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        navigate("/hrhome");
-        
-      } else if (data.user.role === "EMPLOYEE") {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        navigate("/emphome");
+      // HR / Employee login
+      const req = await fetch("http://localhost:3000/api/emp/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+        }),
+      });
 
-      } else {
-        setError("Your account has an unsupported role.");
+      const data = await req.json().catch(() => ({}));
+
+      if (!req.ok || !data.user) {
+        setError(data.message || data.error || "Invalid email or password.");
+        return;
       }
-    } catch (loginError) {
-      setError(
-        loginError instanceof Error
-          ? loginError.message
-          : "Unable to log in. Please try again.",
-      );
+
+      const user = data.user;
+
+      localStorage.setItem("currentuser", JSON.stringify(user));
+
+      if (user.role === "HR") {
+        navigate("/hrhome", { replace: true });
+      } else if (user.role === "EMPLOYEE") {
+        navigate("/emphome", { replace: true });
+      } else {
+        localStorage.removeItem("currentuser");
+        setError("Your account has an unrecognized role.");
+      }
+    } catch (err) {
+      setError("Unable to connect to the server. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h1>Login page</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Enter Emailid"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
-        <br />
-        <button type="submit">Login</button>
-      </form>
-      {error && <div className="alert alert-danger">{error}</div>}
+    <div className="login-page">
+      <div className="container">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+            <div className="login-card">
+              {/* Login heading */}
+              <div className="login-heading text-center">
+                <div className="login-icon">
+                  <i className="bi bi-shield-lock-fill"></i>
+                </div>
+
+                <h2>Welcome Back!</h2>
+                <p>Sign in to continue to MyPortal</p>
+              </div>
+
+              {/* Error message */}
+              {error && (
+                <div className="alert alert-danger py-2" role="alert">
+                  <i className="bi bi-exclamation-circle me-2"></i>
+                  {error}
+                </div>
+              )}
+
+              {/* Login form */}
+              <form onSubmit={handleLogin}>
+                <div className="mb-3">
+                  <label htmlFor="loginEmail" className="form-label">
+                    Email Address
+                  </label>
+
+                  <div className="login-input-group">
+                    <i className="bi bi-envelope"></i>
+                    <input
+                      id="loginEmail"
+                      type="email"
+                      className="form-control"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      autoComplete="username"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <label htmlFor="loginPassword" className="form-label">
+                    Password
+                  </label>
+
+                  <div className="login-input-group">
+                    <i className="bi bi-lock"></i>
+                    <input
+                      id="loginPassword"
+                      type="password"
+                      className="form-control"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn login-submit w-100"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2"></span>
+                      Signing in...
+                    </>
+                  ) : (
+                    <>
+                      Login
+                      <i className="bi bi-arrow-right ms-2"></i>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="login-footer text-center">
+                Don't have an account?{" "}
+                <Link to="/register">Create an account</Link>
+              </div>
+
+              <div className="login-security text-center">
+                <i className="bi bi-shield-check me-1"></i>
+                Secure access to your workspace
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Login_page;
+export default Login;

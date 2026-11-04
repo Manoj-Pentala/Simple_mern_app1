@@ -15,7 +15,7 @@
     color: white;
     background: linear-gradient(135deg, #101828, #263e61);
     box-shadow: 0 10px 30px rgba(16, 24, 40, 0.12);
-}
+} 
 
 .hr-badge {
     display: inline-block;

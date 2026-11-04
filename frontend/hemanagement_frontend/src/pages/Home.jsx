@@ -11,7 +11,7 @@ function Home() {
       title: "Welcome to MyPortal",
       description: "Your workspace for learning, teamwork, and productivity.",
     },
-    {
+    { 
       image: img2,
       title: "Work Smarter Together",
       description: "Manage tasks and collaborate with your team efficiently.",

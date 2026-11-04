@@ -17,7 +17,7 @@ function HrHome() {
                         <span className="hr-badge">
                             <i className="bi bi-person-workspace me-2"></i>
                             HR Dashboard
-                        </span>
+                        </span> 
 
                         <h1 className="mt-3">
                             Welcome, {currentuser?.name || "HR"}!

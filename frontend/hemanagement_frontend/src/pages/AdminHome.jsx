@@ -6,4 +6,4 @@ function AdminHome()
      <h1>Welcome {currentuser.name}</h1>
     </div>)
 }
-export default AdminHome
+export default AdminHome 

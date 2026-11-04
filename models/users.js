@@ -9,7 +9,7 @@ let usersschema=mongoose.Schema({
     role:{
         type:String,
         enum:["HR","EMPLOYEE"]
-        }
+        } 
 
 })
 

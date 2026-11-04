@@ -17,7 +17,7 @@ function Header() {
     setMenuOpen(false);
     navigate("/login", { replace: true });
   };
-
+ 
   const closeMenu = () => setMenuOpen(false);
 
   const renderLink = (to, label, icon) => (

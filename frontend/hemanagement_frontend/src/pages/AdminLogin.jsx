@@ -35,4 +35,4 @@ function AdminLogin(){
     )
 }
 
-export default AdminLogin
+export default AdminLogin 

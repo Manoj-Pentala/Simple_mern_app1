@@ -19,7 +19,7 @@ function Contact() {
       emailid,
       colname,
     });
-
+ 
     setSubmitted(true);
   };
 

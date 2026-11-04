@@ -18,7 +18,7 @@ function Login() {
     if (!email.trim() || !password) {
       setError("Please enter your email and password.");
       return;
-    }
+    } 
 
     setLoading(true);
 

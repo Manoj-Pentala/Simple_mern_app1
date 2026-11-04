@@ -20,7 +20,7 @@ function Register() {
       setMessage("Please fill in all fields.");
       setMessageType("danger");
       return;
-    }
+    } 
 
     setLoading(true);
 

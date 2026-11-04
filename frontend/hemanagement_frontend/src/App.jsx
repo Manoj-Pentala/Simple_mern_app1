@@ -17,7 +17,7 @@ import HrHome from './pages/HrHome'
 import EmpHome from './pages/EmpHome'
 
 function App() {
-    return (
+    return ( 
     <div>
     <Header />
        <Routes>

@@ -16,7 +16,7 @@ function Home() {
           <div className="carousel-item">
             <img src={image3} className="d-block w-100" alt="..." />
           </div>
-        </div>
+        </div> 
         <div className="carousel-overlay-controls">
           <div>
             <button className="btn-icon btn-sm btn-subtle theme-secondary" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">

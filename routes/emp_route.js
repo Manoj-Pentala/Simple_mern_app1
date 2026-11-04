@@ -12,7 +12,7 @@ router.post("/register",async (req,res)=>{
     let result= await newuser.save();
     res.send(result);
 });
-
+ 
 router.post("/login",async (req,res)=>{
     let result=await users.findOne({email:req.body.email})
     // result.password=undefined;

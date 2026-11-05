@@ -7,7 +7,7 @@ let mongoose=require('mongoose');
 
 app.use(cors())
 
-mongoose.connect("mongodb://localhost:27017/hrmanagement")
+mongoose.connect("mongodb+srv://manojpentala11_db_user:BZrHisc0oDZqSWlM@cluster0.eyc3ejo.mongodb.net/hrmanagement")
   .then(()=>{
     console.log("connected with mongodb database")
   }).catch((err)=>{
